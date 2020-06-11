@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+<h1 style="margin: auto">Product List</h1>
+<br>
+<form style="margin-left: 40px">
+    Search:
+    <input type="text" name="s">
+    <input type="submit" value="Search">
+</form>
+<table class="table table-striped">
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Price</td>
+        <td>Image</td>
+        <td></td>
+        <td> Action </td>
+        <td></td>
+    </tr>
+    <th:block th:each="product : ${products}">
+        <tr>
+            <td th:text="${product.getProductId()}"></td>
+            <td th:text="${product.getName()}"></td>
+            <td th:text="${product.getPrice()}"></td>
+            <td th:text="${product.getImage()}"></td>
+            <td><a th:href="@{/edit/__${product.productId}__}">Edit</a></td>
+            <td><a th:href="@{/delete/__${product.productId}__}">Delete</a></td>
+            <td><a th:href="@{/addToCart/__${product.productId}__}">Add to cart</a></td>
+        </tr>
+    </th:block>
+    <div style="margin-left: 40px">
+        <a href="/create">Add new product</a>
+    </div>
+
+</table>
+<div style="margin-left: 40px">
+    <a th:href="@{'/'(page=${products.number - 1})}" th:if="${products.hasPrevious()}">Previous</a>
+    <span th:text="${products.number + 1}"></span>/<span th:text="${products.totalPages}"></span>
+    <a th:href="@{'/'(page=${products.number + 1})}" th:if="${products.hasNext()}">Next</a>
+</div>
+</body>
+</html>
